@@ -1,5 +1,4 @@
 import time
-from unittest import result
 
 def localtime() -> str:
     localtime = time.localtime(time.time())
