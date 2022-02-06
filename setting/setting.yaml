@@ -2,6 +2,6 @@
 host: http://localhost:8080
 #机器人信息
 Bot:
-  account: 1491401165
+  account: 1984751853
   authKey: nwdiowamllwn
   websocket: True
