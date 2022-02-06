@@ -1,0 +1,7 @@
+#监听地址
+host: http://localhost:8080
+#机器人信息
+Bot:
+  account: 1491401165
+  authKey: nwdiowamllwn
+  websocket: True
