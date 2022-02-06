@@ -1,7 +1,9 @@
 admin:
   level: 100
-  id: 2265521774
-user:
+  id: '2265521774'
+user: 
   level: 30
+  id: '1'
 banner :
   level: 0
+  id: '1'
