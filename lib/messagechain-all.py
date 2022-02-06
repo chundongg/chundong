@@ -1,4 +1,3 @@
-from pydoc import plain
 from graia.application.event.messages import FriendMessage, GroupMessage,TempMessage
 from graia.application import BotMessage, Friend, GraiaMiraiApplication, Group, Member
 from graia.broadcast import Broadcast, DispatcherInterface
