@@ -3,4 +3,3 @@ graia-broadcast == 0.8.11
 yaml
 request
 pillow
-uuid
