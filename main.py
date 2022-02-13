@@ -74,7 +74,7 @@ if __name__ == '__main__':
                         ]))
                     else:
                         if wl >= 10000000:
-                            if word[1] in ['admin','user','banner']:
+                            if word[1] in ['admin','user','ban']:
                                 try:
                                     if upgradefile('./setting/premssion.yaml',word[0],word[1]):
                                         if delpremssion(word[0],word[1]):
@@ -83,7 +83,7 @@ if __name__ == '__main__':
                                             ]))
                                         else:
                                             await app.sendGroupMessage(group,message.create([
-                                                Plain("#3按理来说，你看不到这个，这是因为发生了未知错误")
+                                                Plain("加入失败")
                                             ]))
                                     else:
                                         await app.sendGroupMessage(group,message.create([
@@ -95,7 +95,7 @@ if __name__ == '__main__':
                                     ]))
                             else:
                                 await app.sendGroupMessage(group,message.create([
-                                    Plain("{},权限组不存在\n权限组：[admin,user,banner]".format(user.name))
+                                    Plain("{},权限组不存在\n权限组：[admin,user,ban]".format(user.name))
                                 ]))
                         else:
                             await app.sendGroupMessage(group,message.create([
