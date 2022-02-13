@@ -6,8 +6,8 @@ def confirmpremssion(id) -> int:
     id = str(id)
     if id in info['admin']['id']:
         level = info['admin']['level']
-    elif id in info['banner']['id']:
-        level = info['banner']['level']
+    elif id in info['ban']['id']:
+        level = info['ban']['level']
     else:
         level = info['user']['level']
     return level
@@ -15,7 +15,7 @@ def confirmpremssion(id) -> int:
 def delpremssion(id,group) -> bool:
     try:
         info = readfile('./setting/premssion.yaml')
-        grouplist = ['admin','user','banner']
+        grouplist = ['admin','user','ban']
         grouplist.remove(group)
         for i in grouplist:
             if id in info[i]['id']:
