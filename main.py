@@ -1,5 +1,4 @@
 import asyncio
-from pydoc import plain
 import re
 from graia.broadcast import Broadcast
 from graia.application import GraiaMiraiApplication, Session
@@ -16,6 +15,8 @@ from lib.time import localtime
 from plugin.randomfood import randomfood
 from plugin.choicehelp import choicehelp
 from plugin.animepic import get_animepic
+from plugin.bingpic import get_bingpic
+from plugin.hollworld import forworld
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
@@ -41,7 +42,7 @@ if __name__ == '__main__':
                 flo = 1
                 try:
                     await app.sendGroupMessage(group,message.create([
-                        Plain("{},{}\n╠#setgroup QQ号 权限组\n╠-------------------\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你".format(data,user.name)
+                        Plain("{},{}\n╠#setgroup QQ号 权限组\n╠-------------------\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界".format(data,user.name)
                         )
                     ]))
                 except:
@@ -52,7 +53,7 @@ if __name__ == '__main__':
                 if confirmpremssion(user.id) >= 10:
                     try:
                         await app.sendGroupMessage(group,message.create([
-                            Plain("{},{}\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你".format(data,user.name)
+                            Plain("{},{}\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界".format(data,user.name)
                             )
                         ]))
                     except:
@@ -140,6 +141,36 @@ if __name__ == '__main__':
                 try:
                     await app.sendGroupMessage(group,message.create([
                         Image.fromLocalFile('./images/animepic/{}.jpg'.format(get_animepic()))
+                    ]))
+                except:
+                    await app.sendGroupMessage(group,message.create([
+                        Plain("按理来说，你看不到这个，这是因为发生了未知错误")
+                    ]))
+    #bing
+    @bcc.receiver("GroupMessage")
+    async def help(app: GraiaMiraiApplication, group: Group,user:Member,message:MessageChain):
+        if message.asDisplay().startswith('#bing'):
+            if confirmpremssion(user.id) >= 10:
+                try:
+                    pic = get_bingpic()
+                    picname = pic['title']
+                    picurl = pic['imgurl']
+                    await app.sendGroupMessage(group,message.create([
+                        Plain(picname),Image.fromNetworkAddress(picurl)
+                    ]))
+                except:
+                    await app.sendGroupMessage(group,message.create([
+                        Plain("按理来说，你看不到这个，这是因为发生了未知错误")
+                    ]))
+    #今日世界
+    @bcc.receiver("GroupMessage")
+    async def help(app: GraiaMiraiApplication, group: Group,user:Member,message:MessageChain):
+        if message.asDisplay().startswith('#今日世界'):
+            if confirmpremssion(user.id) >= 10:
+                try:
+                    url = forworld()
+                    await app.sendGroupMessage(group,message.create([
+                        Image.fromNetworkAddress(url)
                     ]))
                 except:
                     await app.sendGroupMessage(group,message.create([
