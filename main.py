@@ -2,7 +2,7 @@ import asyncio
 import re
 from graia.broadcast import Broadcast
 from graia.application import GraiaMiraiApplication, Session
-from graia.application import GraiaMiraiApplication, Group, Member
+from graia.application import GraiaMiraiApplication, Group, Member,Friend
 from graia.application.message.chain import MessageChain
 from graia.application.message.elements.internal import Plain,Image
 
@@ -17,6 +17,8 @@ from plugin.choicehelp import choicehelp
 from plugin.animepic import get_animepic
 from plugin.bingpic import get_bingpic
 from plugin.hollworld import forworld
+from plugin.float import *
+from plugin.chat import chat
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
@@ -42,7 +44,7 @@ if __name__ == '__main__':
                 flo = 1
                 try:
                     await app.sendGroupMessage(group,message.create([
-                        Plain("{},{}\n╠#setgroup QQ号 权限组\n╠-------------------\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界".format(data,user.name)
+                        Plain("{},{}\n╠#setgroup QQ号 权限组\n╠-------------------\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界\n╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个漂流瓶".format(data,user.name)
                         )
                     ]))
                 except:
@@ -53,7 +55,7 @@ if __name__ == '__main__':
                 if confirmpremssion(user.id) >= 10:
                     try:
                         await app.sendGroupMessage(group,message.create([
-                            Plain("{},{}\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界".format(data,user.name)
+                            Plain("{},{}\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界\n╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个漂流瓶".format(data,user.name)
                             )
                         ]))
                     except:
@@ -176,4 +178,46 @@ if __name__ == '__main__':
                     await app.sendGroupMessage(group,message.create([
                         Plain("按理来说，你看不到这个，这是因为发生了未知错误")
                     ]))
+    #漂流瓶-delivery
+    @bcc.receiver("GroupMessage")
+    async def help(app: GraiaMiraiApplication, group: Group,user:Member,message:MessageChain):
+        if message.asDisplay().startswith('#漂流瓶 '):
+            if confirmpremssion(user.id) >= 10:
+                word = re.sub("[^\w]", " ", message.asDisplay().replace("#漂流瓶 ","")).split()
+                if len(word) == 1:
+                    if word[0] != "#漂流瓶":
+                        if delivery_floatbin(user.id,group.id,word[0]):
+                            await app.sendGroupMessage(group,message.create([
+                                Plain("{},你的漂流瓶已经漂向远方~~".format(user.name))
+                            ]))
+                        else:
+                            await app.sendGroupMessage(group,message.create([
+                                Plain("{},现在风浪不起，待会再试试吧".format(user.name))
+                            ]))
+                else:
+                    await app.sendGroupMessage(group,message.create({
+                        Plain("漂流瓶格式错误!\n格式:(#漂流瓶 内容)")
+                    }))
+    #漂流瓶-get
+    @bcc.receiver("GroupMessage")
+    async def help(app: GraiaMiraiApplication, group: Group,user:Member,message:MessageChain):
+        if message.asDisplay().startswith('#漂流瓶'):
+            if confirmpremssion(user.id) >= 10:
+                word = re.sub("[^\w]", " ", message.asDisplay()).split()
+                if len(word) == 1:
+                    if word[0] == "漂流瓶":
+                        try:
+                            bin = get_floatbin()
+                            if bin['data']['uin'].isdigit():
+                                await app.sendGroupMessage(group,message.create([
+                                    Plain("{},你捞到了一个来自{},群组{}的漂流瓶:\n\n{}\n\n{}".format(user.name,bin['data']['uin'],bin['data']['group'],bin['data']['msg'],bin['data']['Time']))
+                                ]))
+                            else:
+                                await app.sendGroupMessage(group,message.create([
+                                    Plain("{},哦吼，捞到了一个垃圾信息，已经自动屏蔽了".format(user.name))
+                                ]))
+                        except:
+                            await app.sendGroupMessage(group,message.create([
+                                Plain("{},没有捞到漂流瓶！".format(user.name))
+                            ]))
     app.launch_blocking()
