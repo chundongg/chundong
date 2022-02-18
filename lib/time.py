@@ -20,5 +20,5 @@ def localtime() -> str:
         result = '其实你还可以再睡会!'
     if localtime.tm_hour < 3:
         result = '这对我来说太早了点!'
-    timenow = time.strftime("%Y-%m-%d %H:%M", time.localtime())
+    timenow = time.strftime("%Y-%m-%d %H-%M", time.localtime())
     return result,timenow
