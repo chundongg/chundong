@@ -15,10 +15,12 @@ from lib.time import localtime
 from plugin.randomfood import randomfood
 from plugin.choicehelp import choicehelp
 from plugin.animepic import get_animepic
+from plugin.animepic import get_pixivpic
 from plugin.bingpic import get_bingpic
 from plugin.hollworld import forworld
 from plugin.float import *
-from plugin.chat import chat
+from plugin.aknowledge import get_knowledge
+from plugin.qiandao import qiandao
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
@@ -44,7 +46,7 @@ if __name__ == '__main__':
                 flo = 1
                 try:
                     await app.sendGroupMessage(group,message.create([
-                        Plain("{},{}\n╠#setgroup QQ号 权限组\n╠-------------------\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界\n╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个漂流瓶".format(data,user.name)
+                        Plain("{},{}\n╠#setgroup QQ号 权限组\n╠-------------------\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界\n╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个漂流瓶\n╠#一言 - 一言\n╠#摇签 - 天不荒地不老\n╠#pixiv - 无瑟图".format(data,user.name)
                         )
                     ]))
                 except:
@@ -55,7 +57,7 @@ if __name__ == '__main__':
                 if confirmpremssion(user.id) >= 10:
                     try:
                         await app.sendGroupMessage(group,message.create([
-                            Plain("{},{}\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界\n╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个漂流瓶".format(data,user.name)
+                            Plain("{},{}\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界\n╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个漂流瓶\n╠#一言 - 一言\n╠#摇签 - 天不荒地不老\n╠#pixiv - 无瑟图".format(data,user.name)
                             )
                         ]))
                     except:
@@ -220,4 +222,46 @@ if __name__ == '__main__':
                             await app.sendGroupMessage(group,message.create([
                                 Plain("{},没有捞到漂流瓶！".format(user.name))
                             ]))
+    #摇签
+    @bcc.receiver("GroupMessage")
+    async def help(app: GraiaMiraiApplication, group: Group,user:Member,message:MessageChain):
+        if message.asDisplay().startswith('#摇签'):
+            if confirmpremssion(user.id) >= 10:
+                try:
+                    file = qiandao(user.id,user.name)
+                    await app.sendGroupMessage(group,message.create([
+                        Image.fromLocalFile('./plugin/qiandao_cache/{}.png'.format(file))
+                    ]))
+                except:
+                    await app.sendGroupMessage(group,message.create([
+                        Plain("按理来说，你看不到这个，这是因为发生了未知错误")
+                    ]))
+    #pixiv
+    @bcc.receiver("GroupMessage")
+    async def help(app: GraiaMiraiApplication, group: Group,user:Member,message:MessageChain):
+        if message.asDisplay().startswith('#pixiv'):
+            if confirmpremssion(user.id) >= 10:
+                try:
+                    picname = get_pixivpic()
+                    await app.sendGroupMessage(group,message.create([
+                        Plain("PID:{}".format(picname)),Image.fromLocalFile('./images/pixivpic/{}.png'.format(picname))
+                    ]))
+                except:
+                    await app.sendGroupMessage(group,message.create([
+                        Plain("图片服务器未响应")
+                    ]))
+    #一言
+    @bcc.receiver("GroupMessage")
+    async def help(app: GraiaMiraiApplication, group: Group,user:Member,message:MessageChain):
+        if message.asDisplay().startswith('#一言'):
+            if confirmpremssion(user.id) >= 10:
+                try:
+                    yiyan = get_knowledge()
+                    await app.sendGroupMessage(group,message.create([
+                        Plain("{}\n  ————{}".format(yiyan["hitokoto"],yiyan["from"]))
+                    ]))
+                except:
+                    await app.sendGroupMessage(group,message.create([
+                        Plain("按理来说，你看不到这个，这是因为发生了未知错误")
+                    ]))
     app.launch_blocking()
