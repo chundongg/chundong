@@ -185,21 +185,18 @@ if __name__ == '__main__':
     async def help(app: GraiaMiraiApplication, group: Group,user:Member,message:MessageChain):
         if message.asDisplay().startswith('#漂流瓶 '):
             if confirmpremssion(user.id) >= 10:
-                word = re.sub("[^\w]", " ", message.asDisplay().replace("#漂流瓶 ","")).split()
-                if len(word) == 1:
-                    if word[0] != "#漂流瓶":
-                        if delivery_floatbin(user.id,group.id,word[0]):
-                            await app.sendGroupMessage(group,message.create([
-                                Plain("{},你的漂流瓶已经漂向远方~~".format(user.name))
-                            ]))
-                        else:
-                            await app.sendGroupMessage(group,message.create([
-                                Plain("{},现在风浪不起，待会再试试吧".format(user.name))
-                            ]))
-                else:
-                    await app.sendGroupMessage(group,message.create({
-                        Plain("漂流瓶格式错误!\n格式:(#漂流瓶 内容)")
-                    }))
+                word = re.sub(" ", " ", message.asDisplay().replace("#漂流瓶 ","")).split()
+                if word[0] != "#漂流瓶":
+                    for i in word:
+                        text = ' '.join(i)
+                    if delivery_floatbin(user.id,group.id,text):
+                        await app.sendGroupMessage(group,message.create([
+                            Plain("{},你的漂流瓶已经漂向远方~~".format(user.name))
+                        ]))
+                    else:
+                        await app.sendGroupMessage(group,message.create([
+                            Plain("{},现在风浪不起，待会再试试吧".format(user.name))
+                        ]))
     #漂流瓶-get
     @bcc.receiver("GroupMessage")
     async def help(app: GraiaMiraiApplication, group: Group,user:Member,message:MessageChain):
@@ -241,15 +238,33 @@ if __name__ == '__main__':
     async def help(app: GraiaMiraiApplication, group: Group,user:Member,message:MessageChain):
         if message.asDisplay().startswith('#pixiv'):
             if confirmpremssion(user.id) >= 10:
-                try:
-                    picname = get_pixivpic()
-                    await app.sendGroupMessage(group,message.create([
-                        Plain("PID:{}".format(picname)),Image.fromLocalFile('./images/pixivpic/{}.png'.format(picname))
-                    ]))
-                except:
-                    await app.sendGroupMessage(group,message.create([
-                        Plain("图片服务器未响应")
-                    ]))
+                word = re.sub(" ", " ", message.asDisplay().replace("#pixiv ","")).split()
+                if word[0].isdigit():
+                    if int(word[0]) <= 5:
+                        try:
+                            for i in range(int(word[0])):
+                                picname = get_pixivpic()
+                                await app.sendGroupMessage(group,message.create([
+                                    Plain("PID:{}".format(picname)),Image.fromLocalFile('./images/pixivpic/{}.png'.format(picname))
+                                ]))
+                        except:
+                            await app.sendGroupMessage(group,message.create([
+                                Plain("图片服务器未响应")
+                            ]))
+                    else:
+                        await app.sendGroupMessage(group,message.create([
+                            Plain("太多了")
+                        ]))
+                else:
+                        try:
+                            picname = get_pixivpic()
+                            await app.sendGroupMessage(group,message.create([
+                                Plain("PID:{}".format(picname)),Image.fromLocalFile('./images/pixivpic/{}.png'.format(picname))
+                            ]))
+                        except:
+                            await app.sendGroupMessage(group,message.create([
+                                Plain("图片服务器未响应")
+                            ]))
     #一言
     @bcc.receiver("GroupMessage")
     async def help(app: GraiaMiraiApplication, group: Group,user:Member,message:MessageChain):
