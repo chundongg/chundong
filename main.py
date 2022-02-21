@@ -11,6 +11,7 @@ from lib.readfile import upgradefile
 from lib.premssion import confirmpremssion
 from lib.premssion import delpremssion
 from lib.time import localtime
+from lib.fenlei import fenlei
 
 from plugin.randomfood import randomfood
 from plugin.choicehelp import choicehelp
@@ -21,6 +22,7 @@ from plugin.hollworld import forworld
 from plugin.float import *
 from plugin.aknowledge import get_knowledge
 from plugin.qiandao import qiandao
+
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
@@ -208,12 +210,17 @@ if __name__ == '__main__':
                         try:
                             bin = get_floatbin()
                             if bin['data']['uin'].isdigit():
-                                await app.sendGroupMessage(group,message.create([
-                                    Plain("{},你捞到了一个来自{},群组{}的漂流瓶:\n\n{}\n\n{}".format(user.name,bin['data']['uin'],bin['data']['group'],bin['data']['msg'],bin['data']['Time']))
-                                ]))
+                                if fenlei(bin['data']['msg']):
+                                    await app.sendGroupMessage(group,message.create([
+                                        Plain("{},你捞到了一个来自{},群组{}的漂流瓶:\n\n{}\n\n{}".format(user.name,bin['data']['uin'],bin['data']['group'],bin['data']['msg'],bin['data']['Time']))
+                                    ]))
+                                else:
+                                    await app.sendGroupMessage(group,message.create([
+                                        Plain("{},哦吼，捞到了一个垃圾信息(判断规则:Auto)，已经自动屏蔽了".format(user.name))
+                                    ]))
                             else:
                                 await app.sendGroupMessage(group,message.create([
-                                    Plain("{},哦吼，捞到了一个垃圾信息，已经自动屏蔽了".format(user.name))
+                                    Plain("{},哦吼，捞到了一个垃圾信息(判断规则:rule)，已经自动屏蔽了".format(user.name))
                                 ]))
                         except:
                             await app.sendGroupMessage(group,message.create([
