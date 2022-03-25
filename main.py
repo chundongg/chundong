@@ -22,7 +22,7 @@ from plugin.hollworld import forworld
 from plugin.float import *
 from plugin.aknowledge import get_knowledge
 from plugin.qiandao import qiandao
-
+from plugin.post import post
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
@@ -49,7 +49,7 @@ if __name__ == '__main__':
                 try:
                     yy = get_knowledge()
                     await app.sendGroupMessage(group,message.create([
-                        Plain("{},{}\n╠#setgroup QQ号 权限组\n╠-------------------\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界\n╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个漂流瓶\n╠#一言 - 一言\n╠#摇签 - 天不荒地不老\n╠#pixiv - 无瑟图\n\n{}\n  ————{}".format(data,user.name,yy["hitokoto"],yy["from"])
+                        Plain("{},{}\n╠#setgroup QQ号 权限组\n╠-------------------\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界\n╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个漂流瓶\n╠#一言 - 一言\n╠#摇签 - 天不荒地不老\n╠#pixiv - 无瑟图\n╠#poster - 今日就在\n\n{}\n  ————{}".format(data,user.name,yy["hitokoto"],yy["from"])
                         )
                     ]))
                 except:
@@ -61,7 +61,7 @@ if __name__ == '__main__':
                     try:
                         yy = get_knowledge()
                         await app.sendGroupMessage(group,message.create([
-                            Plain("{},{}\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界\n╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个漂流瓶\n╠#一言 - 一言\n╠#摇签 - 天不荒地不老\n╠#pixiv - 无瑟图\n\n{}\n  ————{}".format(data,user.name,yy["hitokoto"],yy["from"])
+                            Plain("{},{}\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界\n╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个漂流瓶\n╠#一言 - 一言\n╠#摇签 - 天不荒地不老\n╠#pixiv - 无瑟图\n╠#poster - 今日就在\n\n{}\n  ————{}".format(data,user.name,yy["hitokoto"],yy["from"])
                             )
                         ]))
                     except:
@@ -283,6 +283,20 @@ if __name__ == '__main__':
                     yiyan = get_knowledge()
                     await app.sendGroupMessage(group,message.create([
                         Plain("{}\n  ————{}".format(yiyan["hitokoto"],yiyan["from"]))
+                    ]))
+                except:
+                    await app.sendGroupMessage(group,message.create([
+                        Plain("按理来说，你看不到这个，这是因为发生了未知错误")
+                    ]))
+    #poster
+    @bcc.receiver("GroupMessage")
+    async def help(app: GraiaMiraiApplication, group: Group,user:Member,message:MessageChain):
+        if message.asDisplay().startswith('#poster'):
+            if confirmpremssion(user.id) >= 10:
+                try:
+                    poster = post(user.id,user.name)
+                    await app.sendGroupMessage(group,message.create([
+                        Image.fromNetworkAddress(poster)
                     ]))
                 except:
                     await app.sendGroupMessage(group,message.create([
