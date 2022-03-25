@@ -37,5 +37,6 @@ def post(id,name) -> str:
     pic = random.choice(picurl_text['data'])
     url = pic["imgurl"]
     time,nowtime = localtime()
-    posturl = "https://tenapi.cn/poster/?qrcode=今日运势:{}&title={}&content={}&site={}&info={}&author={}&pic={}".format(luckstar_text["data"]["signText"],time,context_text["hitokoto"],nowtime,name,context_text["from"],url)
+    tip = "@小c、小d"
+    posturl = "https://tenapi.cn/poster/?qrcode=今日运势:{}&title={} {}&content={}&site={}&info={}&author={}&pic={}".format(luckstar_text["data"]["signText"],time,name,context_text["hitokoto"],nowtime,tip,context_text["from"],url)
     return posturl
