@@ -1,4 +1,5 @@
 import asyncio
+from pydoc import plain
 import re
 from graia.broadcast import Broadcast
 from graia.application import GraiaMiraiApplication, Session
@@ -23,6 +24,7 @@ from plugin.float import *
 from plugin.aknowledge import get_knowledge
 from plugin.qiandao import qiandao
 from plugin.post import post
+from plugin.genshin import *
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
@@ -49,24 +51,32 @@ if __name__ == '__main__':
                 try:
                     yy = get_knowledge()
                     await app.sendGroupMessage(group,message.create([
-                        Plain("{},{}\n╠#setgroup QQ号 权限组\n╠-------------------\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界\n╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个漂流瓶\n╠#一言 - 一言\n╠#摇签 - 天不荒地不老\n╠#pixiv - 无瑟图\n╠#poster - 今日就在\n\n{}\n  ————{}".format(data,user.name,yy["hitokoto"],yy["from"])
+                        Plain("{},{}\n╠#setgroup QQ号 权限组\n╠-------------------\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A \
+                        选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - \
+                        60s读懂世界\n╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个漂流瓶\n╠#一言 - 一言\n╠#摇签 - \
+                        天不荒地不老\n╠#pixiv - 无瑟图\n╠#poster - 今日就在\n╠#bind 米游社通行证ID - 绑定信息\n╠#\
+                        原神 - 原神信息获取\n\n{}\n  ————{}".format(data,user.name,yy["hitokoto"],yy["from"])
                         )
                     ]))
-                except:
+                except Exception as err:
                     await app.sendGroupMessage(group,message.create([
-                        Plain("按理来说，你看不到这个，这是因为发生了未知错误")
+                        Plain("按理来说，你看不到这个，这是因为发生了未知错误\n{}".format(err))
                     ]))
             if flo == 0:
                 if confirmpremssion(user.id) >= 10:
                     try:
                         yy = get_knowledge()
                         await app.sendGroupMessage(group,message.create([
-                            Plain("{},{}\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界\n╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个漂流瓶\n╠#一言 - 一言\n╠#摇签 - 天不荒地不老\n╠#pixiv - 无瑟图\n╠#poster - 今日就在\n\n{}\n  ————{}".format(data,user.name,yy["hitokoto"],yy["from"])
+                            Plain("{},{}\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B \
+                            ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界\n\
+                            ╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个漂流瓶\n╠#一言 - 一言\n╠#摇签 - 天不荒\
+                            地不老\n╠#pixiv - 无瑟图\n╠#poster - 今日就在\n╠#bind 米游社通行证ID - 绑定信息\n╠#\
+                            原神 - 原神信息获取\n\n{}\n  ————{}".format(data,user.name,yy["hitokoto"],yy["from"])
                             )
                         ]))
-                    except:
+                    except Exception as err:
                         await app.sendGroupMessage(group,message.create([
-                            Plain("按理来说，你看不到这个，这是因为发生了未知错误")
+                            Plain("按理来说，你看不到这个，这是因为发生了未知错误\n{}".format(err))
                         ]))
     #setgroup 
     @bcc.receiver("GroupMessage")
@@ -98,9 +108,9 @@ if __name__ == '__main__':
                                         await app.sendGroupMessage(group,message.create([
                                             Plain("按理来说，你看不到这个，这是因为发生了未知错误")
                                         ]))
-                                except:
+                                except Exception as err:
                                     await app.sendGroupMessage(group,message.create([
-                                        Plain("按理来说，你看不到这个，这是因为发生了未知错误")
+                                        Plain("按理来说，你看不到这个，这是因为发生了未知错误\n{}".format(err))
                                     ]))
                             else:
                                 await app.sendGroupMessage(group,message.create([
@@ -124,9 +134,9 @@ if __name__ == '__main__':
                     await app.sendGroupMessage(group,message.create([
                         Plain("{},尝尝{}吧".format(user.name,randomfood()))
                     ]))
-                except:
+                except Exception as err:
                     await app.sendGroupMessage(group,message.create([
-                        Plain("按理来说，你看不到这个，这是因为发生了未知错误")
+                        Plain("按理来说，你看不到这个，这是因为发生了未知错误\n{}".format(err))
                     ]))
     #帮我选择 
     @bcc.receiver("GroupMessage")
@@ -137,9 +147,9 @@ if __name__ == '__main__':
                     await app.sendGroupMessage(group,message.create([
                         Plain("{},帮你选择:\n{}".format(user.name,choicehelp(user.name,message.asDisplay())))
                     ]))
-                except:
+                except Exception as err:
                     await app.sendGroupMessage(group,message.create([
-                        Plain("按理来说，你看不到这个，这是因为发生了未知错误")
+                        Plain("按理来说，你看不到这个，这是因为发生了未知错误\n{}".format(err))
                     ]))
     #二次元
     @bcc.receiver("GroupMessage")
@@ -150,9 +160,9 @@ if __name__ == '__main__':
                     await app.sendGroupMessage(group,message.create([
                         Image.fromLocalFile('./images/animepic/{}.jpg'.format(get_animepic()))
                     ]))
-                except:
+                except Exception as err:
                     await app.sendGroupMessage(group,message.create([
-                        Plain("按理来说，你看不到这个，这是因为发生了未知错误")
+                        Plain("按理来说，你看不到这个，这是因为发生了未知错误\n{}".format(err))
                     ]))
     #bing
     @bcc.receiver("GroupMessage")
@@ -166,9 +176,9 @@ if __name__ == '__main__':
                     await app.sendGroupMessage(group,message.create([
                         Plain(picname),Image.fromNetworkAddress(picurl)
                     ]))
-                except:
+                except Exception as err:
                     await app.sendGroupMessage(group,message.create([
-                        Plain("按理来说，你看不到这个，这是因为发生了未知错误")
+                        Plain("按理来说，你看不到这个，这是因为发生了未知错误\n{}".format(err))
                     ]))
     #今日世界
     @bcc.receiver("GroupMessage")
@@ -180,9 +190,9 @@ if __name__ == '__main__':
                     await app.sendGroupMessage(group,message.create([
                         Image.fromNetworkAddress(url)
                     ]))
-                except:
+                except Exception as err:
                     await app.sendGroupMessage(group,message.create([
-                        Plain("按理来说，你看不到这个，这是因为发生了未知错误")
+                        Plain("按理来说，你看不到这个，这是因为发生了未知错误\n{}".format(err))
                     ]))
     #漂流瓶-delivery
     @bcc.receiver("GroupMessage")
@@ -238,9 +248,9 @@ if __name__ == '__main__':
                     await app.sendGroupMessage(group,message.create([
                         Image.fromLocalFile('./plugin/qiandao_cache/{}.png'.format(file))
                     ]))
-                except:
+                except Exception as err:
                     await app.sendGroupMessage(group,message.create([
-                        Plain("按理来说，你看不到这个，这是因为发生了未知错误")
+                        Plain("按理来说，你看不到这个，这是因为发生了未知错误\n{}".format(err))
                     ]))
     #pixiv
     @bcc.receiver("GroupMessage")
@@ -265,15 +275,15 @@ if __name__ == '__main__':
                             Plain("太多了")
                         ]))
                 else:
-                        try:
-                            picname = get_pixivpic()
-                            await app.sendGroupMessage(group,message.create([
-                                Plain("PID:{}".format(picname)),Image.fromLocalFile('./images/pixivpic/{}.png'.format(picname))
-                            ]))
-                        except:
-                            await app.sendGroupMessage(group,message.create([
-                                Plain("图片服务器未响应")
-                            ]))
+                    try:
+                        picname = get_pixivpic()
+                        await app.sendGroupMessage(group,message.create([
+                            Plain("PID:{}".format(picname)),Image.fromLocalFile('./images/pixivpic/{}.png'.format(picname))
+                        ]))
+                    except:
+                        await app.sendGroupMessage(group,message.create([
+                            Plain("图片服务器未响应")
+                        ]))
     #一言
     @bcc.receiver("GroupMessage")
     async def help(app: GraiaMiraiApplication, group: Group,user:Member,message:MessageChain):
@@ -284,9 +294,9 @@ if __name__ == '__main__':
                     await app.sendGroupMessage(group,message.create([
                         Plain("{}\n  ————{}".format(yiyan["hitokoto"],yiyan["from"]))
                     ]))
-                except:
+                except Exception as err:
                     await app.sendGroupMessage(group,message.create([
-                        Plain("按理来说，你看不到这个，这是因为发生了未知错误")
+                        Plain("按理来说，你看不到这个，这是因为发生了未知错误\n{}".format(err))
                     ]))
     #poster
     @bcc.receiver("GroupMessage")
@@ -298,8 +308,41 @@ if __name__ == '__main__':
                     await app.sendGroupMessage(group,message.create([
                         Image.fromNetworkAddress(poster)
                     ]))
+                except Exception as err:
+                    await app.sendGroupMessage(group,message.create([
+                        Plain("按理来说，你看不到这个，这是因为发生了未知错误\n{}".format(err))
+                    ]))
+    #原神卡片_bind
+    @bcc.receiver("GroupMessage")
+    async def help(app: GraiaMiraiApplication, group: Group,user:Member,message:MessageChain):
+        if message.asDisplay().startswith('#bind '):
+            if confirmpremssion(user.id) >= 10:
+                try:
+                    word = re.sub("[^\w]", " ", message.asDisplay().replace("#bind ","")).split()
+                    if bind(word[0],user.id,group):
+                        await app.sendGroupMessage(group,message.create([
+                            Plain("{}绑定成功",format(word[0]))
+                        ]))
+                    else:
+                        await app.sendGroupMessage(group,message.create([
+                            Plain("{}绑定失败",format(word[0]))
+                        ]))
+                except Exception as err:
+                    await app.sendGroupMessage(group,message.create([
+                        Plain("按理来说，你看不到这个，这是因为发生了未知错误\n{}".format(err))
+                    ]))
+    #原神卡片_get
+    @bcc.receiver("GroupMessage")
+    async def help(app: GraiaMiraiApplication, group: Group,user:Member,message:MessageChain):
+        if message.asDisplay().startswith('#原神 '):
+            if confirmpremssion(user.id) >= 10:
+                try:
+                    url = "https://genshin-card.getloli.com/rand/{}.png".format(get_genshin(group,user.id))
+                    await app.sendGroupMessage(group,message.create([
+                        Image.fromNetworkAddress(url)
+                    ]))
                 except:
                     await app.sendGroupMessage(group,message.create([
-                        Plain("按理来说，你看不到这个，这是因为发生了未知错误")
+                        Plain("你还未绑定，请先绑定")
                     ]))
     app.launch_blocking()
