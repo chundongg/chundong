@@ -1,5 +1,4 @@
 import requests
-import json
 import random
 import time
 
@@ -29,11 +28,14 @@ def localtime() -> str:
 
 def post(id,name) -> str:
     context = requests.get("https://v1.hitokoto.cn/")
-    context_text = json.loads(context.text)
+    context_text = context.json()
+    context.close()
     luckstar = requests.get("https://api.fanlisky.cn/api/qr-fortune/get/{}".format(id))
-    luckstar_text = json.loads(luckstar.text)
+    luckstar_text = luckstar.json()
+    luckstar.close()
     picurl = requests.get("https://api.iyk0.com/mryt/")
-    picurl_text = json.loads(picurl.text)
+    picurl_text = picurl.json()
+    picurl.close()
     pic = random.choice(picurl_text['data'])
     url = pic["imgurl"]
     time,nowtime = localtime()
