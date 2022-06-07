@@ -1,18 +1,19 @@
 from lib.time import localtime
 
 import uuid
-import json
 from io import BytesIO
 from PIL import Image, ImageDraw, ImageFont
 import requests
 
 def qiandao(id,name) -> str:
     luckword = requests.get("https://api.fanlisky.cn/api/qr-fortune/get/{}".format(id))
-    luckwordjson = json.loads(luckword.text)
+    luckwordjson = luckword.json()
+    luckword.close()
     time,nowtime = localtime()
     picname = uuid.uuid4()
     getimage = requests.get("https://pximg2.rainchan.win/rawimg")
     picid = getimage.url[getimage.url.find("img_id=")+7:]
+    getimage.close()
 
     #保存和获取图片大小
     image = Image.open(BytesIO(getimage.content))
