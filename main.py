@@ -351,6 +351,6 @@ if __name__ == '__main__':
                         ]))
                 except:
                     await app.sendGroupMessage(group,message.create([
-                        Plain("按理来说，你看不到这个，这是因为发生了未知错误")
+                        Plain("你绑定的UID有误或者服务器出错")
                     ]))
     app.launch_blocking()
