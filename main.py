@@ -52,7 +52,11 @@ if __name__ == '__main__':
                 try:
                     yy = get_knowledge()
                     await app.sendGroupMessage(group,message.create([
-                        Plain("{},{}\n╠#setgroup QQ号 权限组\n╠-------------------\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界\n╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个漂流瓶\n╠#一言 - 一言\n╠#摇签 - 天不荒地不老\n╠#pixiv - 无瑟图\n╠#poster - 今日就在\n\n{}\n  ————{}".format(data,user.name,yy["hitokoto"],yy["from"])
+                        Plain("{},{}\n╠#setgroup QQ号 权限组\n╠-------------------\n指令集:\n╠#随机吃饭 - \
+                        我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - \
+                        必应每日一图\n╠#今日世界 - 60s读懂世界\n╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个\
+                        漂流瓶\n╠#一言 - 一言\n╠#摇签 - 天不荒地不老\n╠#pixiv - 无瑟图\n╠#poster - 今日就\
+                        在\n╠#bind 原神UID - 绑定你的原神UID\n╠#原神 - 原神卡片\n\n{}\n  ————{}".format(data,user.name,yy["hitokoto"],yy["from"])
                         )
                     ]))
                 except:
@@ -64,7 +68,11 @@ if __name__ == '__main__':
                     try:
                         yy = get_knowledge()
                         await app.sendGroupMessage(group,message.create([
-                            Plain("{},{}\n指令集:\n╠#随机吃饭 - 我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - 必应每日一图\n╠#今日世界 - 60s读懂世界\n╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个漂流瓶\n╠#一言 - 一言\n╠#摇签 - 天不荒地不老\n╠#pixiv - 无瑟图\n╠#poster - 今日就在\n\n{}\n  ————{}".format(data,user.name,yy["hitokoto"],yy["from"])
+                            Plain("{},{}\n指令集:\n╠#随机吃饭 - \
+                            我也不知道吃啥啊！\n╠#帮我选择 选择A 选择B ...\n╠#二次元 - 杰哥注意上了你\n╠#bing - \
+                            必应每日一图\n╠#今日世界 - 60s读懂世界\n╠#漂流瓶 内容 - 投递漂流瓶\n╠#漂流瓶 - 捞一个\
+                            漂流瓶\n╠#一言 - 一言\n╠#摇签 - 天不荒地不老\n╠#pixiv - 无瑟图\n╠#poster - 今日就\
+                            在\n╠#bind 原神UID - 绑定你的原神UID\n╠#原神 - 原神卡片\n\n{}\n  ————{}".format(data,user.name,yy["hitokoto"],yy["from"])
                             )
                         ]))
                     except:
@@ -338,7 +346,8 @@ if __name__ == '__main__':
                     else:
                         txt = get_genshincard(id)
                         await app.sendGroupMessage(group,message.create([
-                            Plain("{}，等级：{}\n活跃天数：{}\n成就达成数：{}\n获得角色数：{}\n解锁传送点：{}\n解锁秘境：{}\n深境螺旋：{}".format(txt['role']['nickname'],txt['role']['level'],txt['stats']['active_day_number'],txt['stats']['achievement_number'],txt['stats']['avatar_number'],txt['stats']['way_point_number'],txt['stats']['domain_number'],txt['stats']['spiral_abyss']))
+                            Plain("{}，等级：{}\n活跃天数：{}\n成就达成数：{}\n获得角色数：{}\n\
+                                解锁传送点：{}\n解锁秘境：{}\n深境螺旋：{}".format(txt['role']['nickname'],txt['role']['level'],txt['stats']['active_day_number'],txt['stats']['achievement_number'],txt['stats']['avatar_number'],txt['stats']['way_point_number'],txt['stats']['domain_number'],txt['stats']['spiral_abyss']))
                         ]))
                 except:
                     await app.sendGroupMessage(group,message.create([
