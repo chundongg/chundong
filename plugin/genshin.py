@@ -17,7 +17,9 @@ def bind(mi,qq,qq_qun) -> bool:
     else:
         if os.path.exists("./genshin/{}/{}.yaml".format(qq_qun,qq_qun)):
             try:
-                data = yaml.full_load("./genshin/{}/{}.yaml".format(qq_qun,qq_qun))
+                with open("./genshin/{}/{}.yaml".format(qq_qun,qq_qun),'r',encoding = 'utf-8') as file:
+                    data = yaml.full_load(file)
+                    file.close()
                 data[qq] = mi
                 yaml.dump(data,open("./genshin/{}/{}.yaml".format(qq_qun,qq_qun),'w',encoding='utf-8'))
                 return True
@@ -35,7 +37,9 @@ def bind(mi,qq,qq_qun) -> bool:
 
 def get_genshin(qq_qun,qq):
     try:
-        data = yaml.full_load("./genshin/{}/{}.yaml".format(qq_qun,qq_qun))
+        with open("./genshin/{}/{}.yaml".format(qq_qun,qq_qun),'r',encoding = 'utf-8') as file:
+            data = yaml.full_load(file)
+            file.close()
         result = data[qq]
     except:
         result = False
